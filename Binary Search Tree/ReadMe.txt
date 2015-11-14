@@ -1,76 +1,106 @@
-Poly
-UW CSS343 Project 1
+BinTree
+UW CSS343 Project 2
 
-CSS 343 Data Structures, Algorithms, and Discrete Mathematics II
+CSS 343 Data Structures, Algorithms, And Discrete Mathematics II
 Fall 2015 
 
-Assignment 1, 100 possible points (7%)
+Assignment 2, 100 possible points (9%)
 
-Submission Due by: October 10 (Saturday) 11:59 pm
+Part 1 due by: October 24 (Saturday) 11:59 pm, submit to canvas
+Part 2 due by: October 26 (Monday) 3:30 pm, handwritten, turn in class
 
-Assignment Description:
-This project is to create the abstract data type (ADT) for a polynomial called Poly.
+Part 1 (7%). Programming 
 
-Implement the internal representation of a polynomial (nonnegative exponents) as an array of terms. One array is sufficient to store one polynomial. One term is stored in one array element; each term contains an exponent and a coefficient. The array element subscript is the exponent and the content of the element is the coefficient value. A constructor receives at most two values, the coefficient of the term and the largest exponent currently expected. (The coefficient may be changed later using functions.) Dynamically allocate initial memory for your array using only as many elements as needed. (After the Poly object instantiation, the size of the array need not be tied to the largest exponent. i.e., you may want to make the array larger when needed, but typically an array is not made smaller as it is inefficient.)
+Description:
+This project is to create a binary search tree class called BinTree along with some additional functions (remove function is not required). 
 
-Develop a full class:
-1. All proper constructor and destructor functions, e.g.,
-Poly A(5,7); 	// Memory is reserved for polynomial A, with a largest power of 7  // and the coefficient is set to 5: +5x^7. 
-Poly B(2); 	        // B has one element, initialized to +2x^0
-Poly X;                      // Initialized to 0x^0 (zero polynomial)
-Poly C(A);                 // C is an exact copy (deep copy) of A.
+Your code should be able to read a data file consisting of many lines (an example file called data2.txt will be given containing lines as shown below) to build binary search trees. 
 
-To make sure you understand memory, when Poly A is +5x^7 -4x^3 +10x -2 memory for the object A looks like
- 
+iii not tttt eee r not and jj r eee pp r sssss eee not tttt ooo ff  m m y z $$
+b a c b a c $$
+c b a $$
 
-2. Overload common operators:
-(a). The addition, subtraction, and multiplication operators (+, -, *) to add, subtract, multiply two polynomials
-(b). The assignment operator (=) to assign one polynomial to another
-(c). The addition, subtraction, multiplication assignment operators (+=, -=, *=)
-(d). The equality and inequality operators (==, !=)
+Each line consists of many strings and terminates with the string “$$”. Each line will be used to build one tree. The duplicated strings (i.e., having equal values with existing node data) are discarded, smaller strings go left, and bigger go right. For instance, the internal tree built from the first line of data2.txt should look like in Figure 1. 
+  iii
+                                /       \
+                             eee          not
+                            /   \       /    \
+                        and      ff   jj      tttt
+                                        \     /  \
+                                         m   r    y
+                                            / \     \
+                                          pp   sssss  z
+                                          /
+                                       ooo
 
+Figure 1. example binary search tree
+
+You will also be given nodedata.h and nodedata.cpp files which implements a NodeData class. You must define your tree nodes using NodeData (i.e., each node holds a NodeData* for the data). 
+
+Develop the class:
+1. A default constructor (creates an empty tree), a copy constructor (deep copy), and destructor.
+
+2. Overload operators:
+(a). The assignment operator (=) to assign one tree to another. 
+(b). The equality and inequality operators (==, !=). Define two trees to be equal if they have the same data and same structure.  For example,  
+        
+T1:  b     T2:  b     T3:  c   T4:   b		T1 == T2
+    / \        / \        /         / \		T1 != T3 != T4
+   a   c      a   c      b         c   a	(Note that T4 is not a Bin Search Tree)
+                        /
+                       a
 3. Accessors:
-(a). Overload << to output an entire polynomial, print “ +5x^3 -2x^2 +4” to represent the Poly
-5 x cubed minus 2 x squared plus 4. Use the following exact formatting. Must-do rules for displaying polynomials:
-•	Use lowercase x
-•	A nonzero coefficient and its sign are always displayed (display exactly one blank before every sign)
-•	Do not display a new line in operator<< at the end of the polynomial
-•	Do not display extra blanks at the end or anywhere else in the polynomial
-•	A power of 1 is not displayed and x is not shown at all for a power of 0, e.g., +1x^4 +2x -10
-•	Don't print a term if the coefficient is zero, except if all the coefficients are zero, then print " 0"
-(b). Get one term's coefficient, called getCoeff, e.g.,
-int coeff = P.getCoeff(2);
-cout << "coeff of power 2 of P is: " << coeff << endl;
+(a). Overload << to display the true using inorder traversal. The NodeData class is responsible for displaying its own data. 
+(b). retrieve function to get the NodeData* of a given object in the tree (via pass-by-reference parameter) and to report whether the object is found (tree or false).
 
-4. Mutators:
-(a). Overload >> to input all coeffs (sets all terms of one Poly, in a loop; it is expected that a user enters one coefficient and an exponent repeatedly, Enters -1 for both when done; no data type-checking). e.g., 
-to set A, Poly A(2,7); so that A is +5x^7 -4x^3 +10x –2
-the user enters the pairs in any order: 5 7 10 1 -4 3 -2 0 -1 -1 on one line or multiple lines.
+bool retrieve(const NodeData &, NodeData* &); 
 
-(b). Set one coefficient, called setCoeff, e.g., 
-P.setCoeff(50,0); // set x^0 coeff to 50
+The 2nd parameter in the function signature may initially be garbage. Then if the object is found, it will point to the actual object in the tree.
 
-Miscellaneous Rules
+(c). getHeight function to find the height of a given value in the tree. SPECIAL INSTRUCTION: For this function only, you do not get to know that the tree is a binary search tree. You must solve the problem for a general binary tree where data could be stored anywhere (e.g., tree T4 above). Use this height definition: the height of a node at a leaf is 1, height of a node at the next level is 2, and so on.  The height of a value not found is zero.
+	
+int getHeight (const NodeData &) const;
 
-•	Test your code thoroughly. You may find lab1.cpp file on canvas to help clarify the functional requirements. HOWEVER, it doesn't thoroughly test your Poly class. I will run my own main to test your code. 
+4. Others:
+(a). bstreeToArray function to fill an array of Nodedata* by using an inorder traversal of the tree. It leaves the tree empty. (Since this is just for practice, assume a statically allocated array of 100 NULL elements. No size error checking necessary.)
+	
+void bstreeToArray(NodeData* []); 
+
+After the call to bstreeToArray, the tree in Figure 1 should be empty and the array should be filled with 
+
+and, eee, ff, iii, jj, m, not, ooo, pp, r, sssss, tttt, y, z (in this order)
+Figure 2. bstreeToArray result for the example tree
+
+(b). arrayToBSTree function to builds a balanced BinTree from a sorted array of NodeData* leaving the array filled with NULLs. The root (recursively) is at (low+high)/2 where low is the lowest subscript of the array range and high is the highest. 	
+
+void arrayToBSTree(NodeData* []);
+ 
+After the call to arrayToBSTree, the array in figure 2 should be filled with NULLs and the tree built should look like: 
+                                                 not
+                       /       \
+                    ff           sssss  
+                  /    \        /     \
+              and       jj     pp       y
+                 \     /  \   /  \     /  \
+                 eee iii   m ooo  r tttt   z
 
 
-•	Use valgrind often to find memory leaks (as you develop).
-
-•	You must handle errors such as trying to access a non-existent term. All operations must work correctly and not crash under any circumstances, so thoroughly test your program. Do NOT print error messages; deal with errors appropriately. For example, for the coefficient of a non-existent term, you could return zero. 
-
-•	You do NOT need to handle data type errors, e.g., entering a char instead of int. You are NOT allowed to use anything from the STL or 342’s Array class. You may not fix the array size at some large constant. The point of this assignment is to review memory management; you will be allocating/deallocating memory often.
-
-•	Do NOT discuss implementation (arrays) on Canvas. Any questions having to do with arrays come to only me. Any questions posted on Canvas would have to do with the polynomial ADT. Of course, you can always discuss class related stuff, software, etc. 
-
-•	If your program does not compile with the sample main given, you will receive a maximum of 50% of the points. It will not be fixed! Note that this sample main typically does not test your program thoroughly.  
-
-•	NEVER make us enter characters at the terminal. Remove all "cin >> ..." or system("pause") from your code before you turn it in. 
-
+List of supporting files 
+1.	data2.txt: input data file;
+2.	nodedata.h and nodedata.cpp: NodeData class;
+3.	lab2.cpp: containing main(), to help clarify the functional requirements;
+4.	lab2output: correct output in using lab2.cpp;
+5.	classAndSideway.txt: structure of BinTree class and 2 functions for helping display a binary tree as if you are viewing it from the side. NOTE: They will be part of your program. You can adjust this definition to your implementation (although you must have the three pointers in the Node and it must work with lab2.cpp). 
 
 Submission Requirements:
-The softcopy of well-commented code needed to be submitted to Canvas by the due time. 
+All the rules, submission requirements, and evaluation criteria are the same as the assignment 1. 
 
-Though you may develop and test your code using any compiler, any IDE, you will electronically turn in your code from the linux machines in UW1-320. See Linux guide on https://canvas.uw.edu/courses/998685/pages/for-assignments for directions on how to do this.
+Part 2 (2%). Use as many 8½ by 11 inch pieces of paper, one-sided, to make your work clear.
+1. Use Huffman coding to encode these symbols with given frequencies:
+a: 0.10 b: 0.25 c: 0.05 d: 0.15 e: 0.30 f: 0.07 g: 0.08
 
-As always expected when programming, comment clearly and thoroughly. Clearly state any assumptions you make in the beginning comment block of the appropriate place, e.g., the class definition. Comments in the class definition file should describe the ADT, all functionality, and assumptions. Pre and post conditions are recommended, but not required. Functions in the .cpp file must be separated using comment separator lines. See from the 342 sample code (http://courses.washington.edu/css342/zander/code.html) the Array class for an example of commenting and separator lines (in .cpp file). 
+2. Build (draw) a heap (minheap, smallest value at root) by inserting one item at a time with the values:
+15 20 3 4 8 10 9 5 14 2 25
+
+3. Build (draw) a heap (minheap, smallest value at root) using the linear algorithm with the values:
+10 2 8 6 20 3 5 12 4 10 15
